@@ -1,0 +1,20 @@
+0   8  392   0  10 1 1 32760
+160  14   1 <hyx.l tdc="hyx.l" tdp=5 mark=deref>
+186   9   1 <hyx.l tdc="hyx.l" tdp=14 mark=lookup_catalog>
+187   9   1 <hyx.l tdc="hyx.l" tdp=15 mark=display_results>
+194   9   1 <hyx.l tdc="hyx.l" tdp=14 mark=lookup_catalog>
+202   5   1 <hyx.l tdc="hyx.l" tdp=15 mark=display_results>
+216   4   1 <hyx.l tdc=mark tdp=14 name=lookup_catalog>
+239   4   1 <hyx.l tdc=mark tdp=18 name=lookup_catalog_bin>
+265   4   1 <hyx.l tdc=mark tdp=15 name=display_results>
+334   4   1 <hyx.l tdc=mark tdp=9 name=deref_bin>
+362   4   1 <hyx.l tdc=mark tdp=5 name=deref>
+372  36   1 <hyx.l file="%ds/lmd/nl_00140.c" tdc="hyx.l" tdp=9 mark="new_LMDQS">
+380  18   1 <hyx.l file="%ds/lmd/nl_00105.c" tdc="hyx.l" tdp=10 mark="lmd_deref1">
+383  29   1 <hyx.l file="%ds/lmd/nl_00141.c" tdc="hyx.l" tdp=10 mark="WRL_string">
+385  18   1 <hyx.l file="%ds/lmd/nl_00141.c" tdc="hyx.l" tdp=7 mark="WRL_DIL">
+386  11   1 <hyx.l file="%ds/lmd/nl_00118.c" tdc="hyx.l" tdp=35 mark="lmd_print_document_info_list_stdout">
+387  28   1 <hyx.l file="%ds/lmd/nl_00142.c" tdc="hyx.l" tdp=8 mark="DIL_next">
+389  19   1 <hyx.l file="%ds/lmd/nl_00142.c" tdc="hyx.l" tdp=15 mark="DIL_document_id">
+390  20   1 <hyx.l file="%ds/lmd/nl_00142.c" tdc="hyx.l" tdp=13 mark="DIL_hit_count">
+391  20   1 <hyx.l file="%ds/lmd/nl_00142.c" tdc="hyx.l" tdp=7 mark="DIL_pos">

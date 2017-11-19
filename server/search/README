@@ -1,0 +1,12 @@
+$Id: README,v 1.1 2002/07/02 11:59:50 gonter Exp $
+
+These programs here are used for freedb's search engine.  It uses
+a few components from the SF hyx-tools repository.  I think, all
+components are now publically available, however, some of them are
+in a raw form which.  They will be packaged for easier consumption.
+With other words, they will be packaged into tar.gz files.  Nobody
+will be forced to wade through the original repository.
+
++gg
+
+

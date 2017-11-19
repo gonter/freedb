@@ -1,0 +1,257 @@
+#!/usr/bin/perl
+# ---------------------------------------------------------------------------
+# freedb-proto5-update (v0.2) by Florian Maul <fmaul@gmx.de>
+#
+# takes a list of freedb database files from STDIN and converts them to
+# protocol level 5 i.e. inserting DYEAR und DGENRE while using CDEX entries
+# in the EXTD field.
+#
+# usage: find /data/freedbdir/ -type f | freedb-proto5-update
+#
+# ---------------------------------------------------------------------------
+
+### a huge list of all mp3-genres used by WinAMP 1.091 ###
+%mp3tags = (
+	147,"Synthpop",
+	146,"JPop",
+	145,"Anime",
+	144,"Thrash Metal",
+	143,"Salsa",
+	142,"Merengue",
+	141,"Christian Rock",
+	140,"Contemporary Christian",
+	139,"Crossover",
+	138,"Black Metal",
+	137,"Heavy Metal",
+	136,"Christian Gangsta Rap",
+	135,"Beat",
+	134,"Polsk Punk",
+	133,"Negerpunk",
+	132,"BritPop",
+	131,"Indie",
+	130,"Terror",
+	129,"Hardcore",
+	128,"Club-House",
+	127,"Drum \& Bass",
+	126,"Goa",
+	125,"Dance Hall",
+	124,"Euro-House",
+	123,"A Cappella",
+	122,"Drum Solo",
+	121,"Punk Rock",
+	120,"Duet",
+	119,"Freestyle",
+	118,"Rhythmic Soul",
+	117,"Power Ballad",
+	116,"Ballad",
+	115,"Folklore",
+	114,"Samba",
+	113,"Tango",
+	112,"Club",
+	111,"Slow Jam",
+	110,"Satire",
+	109,"Porn Groove",
+	108,"Primus",
+	107,"Booty Bass",
+	106,"Symphony",
+	105,"Sonata",
+	104,"Chamber Music",
+	103,"Opera",
+	102,"Chanson",
+	101,"Speech",
+	100,"Humour",
+	99,"Acoustic",
+	98,"Easy Listening",
+	97,"Chorus",
+	96,"Big Band",
+	95,"Slow Rock",
+	94,"Symphonic Rock",
+	93,"Psychedelic Rock",
+	92,"Progressive Rock",
+	91,"Gothic Rock",
+	90,"Avantgarde",
+	89,"Bluegrass",
+	88,"Celtic",
+	87,"Revival",
+	86,"Latin",
+	85,"Bebob",
+	84,"Fast-Fusion",
+	83,"Swing",
+	82,"National Folk",
+	81,"Folk/Rock",
+	80,"Folk",
+	79,"Hard Rock",
+	78,"Rock \& Roll",
+	77,"Musical ",
+	76,"Retro",
+	75,"Polka",
+	74,"Acid Jazz",
+	73,"Acid Punk",
+	72,"Tribal",
+	71,"Lo-Fi",
+	70,"Trailer",
+	69,"Showtunes",
+	68,"Rave",
+	67,"Psychedelic",
+	66,"New Wave",
+	65,"Cabaret",
+	64,"Native American",
+	63,"Jungle",
+	62,"Pop/Funk",
+	61,"Christian Rap",
+	60,"Top 40",
+	59,"Gangsta Rap",
+	58,"Cult",
+	57,"Comedy",
+	56,"Southern Rock",
+	55,"Dream",
+	54,"Eurodance",
+	53,"Pop-Folk",
+	52,"Electronic",
+	51,"Techno-Industrial",
+	50,"Darkwave",
+	49,"Gothic",
+	48,"Ethnic",
+	47,"Instrumental Rock",
+	46,"Instrumental Pop",
+	45,"Meditative",
+	44,"Space",
+	43,"Punk",
+	42,"Soul",
+	41,"Bass",
+	40,"Alt.Rock",
+	39,"Noise",
+	38,"Gospel",
+	37,"Sound Clip",
+	36,"Game",
+	35,"House",
+	34,"Acid",
+	33,"Instrumental",
+	32,"Classical",
+	31,"Trance",
+	30,"Fusion",
+	29,"Jazz+Funk",
+	28,"Vocal",
+	27,"Trip-Hop",
+	26,"Ambient",
+	25,"Euro-Techno",
+	24,"Soundtrack",
+	23,"Pranks",
+	22,"Death Metal",
+	21,"Ska",
+	20,"Alternative",
+	19,"Industrial",
+	18,"Techno",
+	17,"Rock",
+	16,"Reggae",
+	15,"Rap",
+	14,"R\&B",
+	13,"Pop",
+	12,"Other",
+	11,"Oldies",
+	10,"New Age",
+	9,"Metal",
+	8,"Jazz",
+	7,"Hip-Hop",
+	6,"Grunge",
+	5,"Funk",
+	4,"Disco",
+	3,"Dance",
+	2,"Country",
+	1,"Classic Rock",
+	0,"Blues",
+	254, "Data",
+	255, "" ); 
+
+# ---------------------------------------------------------------------------
+
+$c_changed = 0;		# count files changed
+$c_year = 0;		# count cdex year tags found
+$c_id3tags = 0;		# count cdex id3tags found
+$c_insert = 0;		# count DYEAR, DGENRE fields inserted
+$c_files = 0;		# count files changed 
+
+while ($filename = <STDIN>) {
+	chomp($filename);
+	$c_files++;
+
+	open(DBFILE, $filename);
+	$year = "";
+	$genreid = "";
+	$genre = "";
+
+	# reading CDEX infos from the EXTD-field
+	while ($line = <DBFILE>) {
+		chomp($line);
+		if ($line =~ /^EXTD=.*YEAR.*/) {
+			$year = $line;
+			$year =~ s/.*YEAR:\s*(\d+).*/\1/;
+			if ($year =~ /^(\d+)$/) {
+				$c_year++;
+			} else { 
+				$year="";
+			}
+		}
+		if ($line =~ /^EXTD=.*ID3G:/) {
+			$genreid = $line;
+			$genreid =~ s/.*ID3G:\s*(\d+).*/\1/;
+			if (! ($genreid =~ /^(\d+)$/)) { $genreid = ""; };
+
+			if (($genreid ne "") && (exists $mp3tags{$genreid})) { 
+				$genre = $mp3tags{$genreid};
+				$c_id3tags++;
+			}
+		}
+	}
+	
+	# rewind input file
+	seek(DBFILE, 0, SEEK_SET);
+	
+	# insert DYEAR and DGENRE into DB-file if missing
+	$lastline = "";
+	$updated = 0;
+	$dbentry = "";
+	while ($line = <DBFILE>) {
+
+		# no DYEAR and DGENRE between DTITLE and TTITLE ? 
+		if (($line =~ /^TTITLE.*/) && ($lastline =~ /^DTITLE.*/)) {	
+			# then insert the new fields
+			$dbentry .= "DYEAR=$year\nDGENRE=$genre\n";
+			$c_insert++;
+			$updated = 1;
+		}
+	
+		# update existing empty DYEAR and DGENRE fields
+		if (($line =~ /^DYEAR=\n$/) && ($year ne "")) {
+			$line = "DYEAR=$year\n";
+			$updated = 1;
+		}	
+		if (($line =~ /^DGENRE=\n$/) && ($genre ne "")) {
+			$line = "DGENRE=$genre\n";
+			$updated = 1;
+		}	
+
+		# append new (or old) line to $dbentry  
+		$dbentry .= $line;
+		$lastline = $line;
+	}
+	
+	close(DBFILE);
+
+	if ($updated > 0) {
+		# open output file
+		if (open(DBFILE, ">$filename")) {
+			print DBFILE $dbentry; 
+			$c_changed++;
+		} 
+		else {
+			print STDERR "ERROR: can't open $filename for writing!\n";	
+		}
+		close(DBFILE);
+	}
+			
+}
+
+printf("%d files were processed.\n%d cdex year entries found.\n%d id3-tags were found.\n%d DYEAR, DGENRE fields were inserted.\n%d database files were changed.\n", $c_files, $c_year, $c_id3tags, $c_insert, $c_changed);
+
+# ---------------------------------------------------------------------------

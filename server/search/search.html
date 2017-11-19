@@ -1,0 +1,96 @@
+<html>
+<head>
+<title>freedb search</title>
+</head>
+
+<body bgcolor="#ffffff">
+
+<table border=0>
+<td bgcolor="#ffffff">
+ <table border=0 width="100%" cellpadding=0 cellspacing=0>
+  <td bgcolor=#101070>
+   <table border=0>
+    <td bgcolor=#ffffff><font face="Arial,Helvetica,Lucida" color="#101070" size=8><b>freedb</b></td>
+    <td bgcolor=#101070><font face="Arial,Helvetica,Lucida" color="#ffffff" size=8><b>.org</b></td>
+   </table>
+  </td>
+  <tr>
+  <td align=right><font face="Arial,Helvetica,Lucida" color="#101070" size=2><b>a free approach to cddbp
+ </table>
+</td>
+</table>
+
+<h2>freedb-locate</h2>
+
+This is an experimental full text search interface to the freedb database:<br>
+<form method=get action="/cgi-bin/freedb-locate">
+<table border=0>
+<tr><td>words: <td colspan="2"><input name="words" size=50 value=""></td></tr>
+<br>
+<tr><td valign=top>
+search: <td valign=top><input type="radio" name="allfields" value="YES" checked> ALL
+<td>
+<table border=0 bgcolor="#e0e0e0">
+<tr><td>
+<input type="radio" name="allfields" value="NO"> Select:
+<br>
+<table border=0><tr>
+<tr>
+<td><input type="checkbox" name="fields" value="artist"> artist</td>
+<td><input type="checkbox" name="fields" value="title"> title</td>
+<td><input type="checkbox" name="fields" value="track"> track</td>
+<td><input type="checkbox" name="fields" value="rest"> rest</td>
+</tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+<tr><td valign=top>
+categories: <td valign=top><input type="radio" name="allcats" value="YES" checked> ALL
+<td>
+<table border=0 bgcolor="#e0e0e0">
+<tr><td>
+<input type="radio" name="allcats" value="NO"> Select:
+<br>
+<table border=0><tr>
+<td><input type="checkbox" name="cats" value="blues"> blues</td>
+<td><input type="checkbox" name="cats" value="classical"> classical</td>
+<td><input type="checkbox" name="cats" value="country"> country</td>
+<td><input type="checkbox" name="cats" value="data"> data</td>
+<td><input type="checkbox" name="cats" value="folk"> folk</td>
+<td><input type="checkbox" name="cats" value="jazz"> jazz</td>
+</td></tr>
+</tr>
+<td><input type="checkbox" name="cats" value="misc"> misc</td>
+<td><input type="checkbox" name="cats" value="newage"> newage</td>
+<td><input type="checkbox" name="cats" value="reggae"> reggae</td>
+<td><input type="checkbox" name="cats" value="rock"> rock</td>
+<td><input type="checkbox" name="cats" value="soundtrack"> soundtrack</td>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+<tr><td>Grouping:
+<td><input type="radio" name="grouping" value="cats" checked> by category
+<td><input type="radio" name="grouping" value="none"> one list
+</td></tr>
+
+<tr><td><input type="submit" value="search"></tr>
+</table>
+</form>
+<hr>
+
+See also:
+<ul>
+<li><a href="check/">multiply filed items</a>
+<li><a href="check-01/all.html">same exp id with 1 track</a>
+<li><a href="check-02/all.html">same exp id with 2 track</a>
+<li><a href="check-03/all.html">same exp id with 3 track</a>
+</ul>
+<hr>
+<a href="http://whisky.wu-wien.ac.at/freedb/src/server/cddbd/HTML/">Source</a>
+
+</body>
+</html>
+

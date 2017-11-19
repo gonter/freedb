@@ -1,0 +1,71 @@
+The freedb submit.cgi README
+----------------------------
+
+Copyright (c) 2001-2004 freedb team (info@freedb.org)
+
+$Id: README,v 1.4 2004/01/07 21:33:05 joerg78 Exp $
+
+INTRODUCTION
+------------
+
+When CDDB was first developed, users which wanted to contribute to the CDDB 
+had to send their xmcd-format database entries to the CDDB, where they were
+manually included in the database. Later the CDDB server software was able to
+handle submissions automatically, which had to be sent to a specific 
+e-mail-address.
+Many CDDB-aware programs implemented support for submission to the CDDB. As the
+e-mail submit method was a bit complicated (users having to specify an 
+smtp-server etc.), a method was developed to submit entries via http via a 
+submit.cgi. The submit.cgi accepts the data via http POST and creates a 
+submission-e-mail to the normal submit-address.
+As the submit.cgi was introduced after the CDDB server software used by 
+CDDB.com became closed source in late 1997, the freedb submit.cgi was 
+written using the specifications, which were available in the cddb.howto 1.27.
+People involved in the development of the freedb submit.cgi were 
+Michael Kaiser, Andy Key and Jörg Hevers.
+The specifications for submission via the submit.cgi can be found in the 
+freedb.howto, which is available from the freedb website at 
+http://www.freedb.org.
+
+Please see the file COPYING for the GNU General Public License.
+Please see the file CHANGELOG for a list of changes in this and earlier 
+versions.
+
+REQUIREMENTS
+------------
+
+In order to use the submit.cgi you need to have this installed:
+
+- perl
+- the perl MIME::QuotedPrint module. If you do not have this module installed,	 	
+  you can get it (included in the MIME::Base64 package) from CPAN at	 	
+  http://search.cpan.org/search?dist=MIME-Base64
+- the perl CGI.pm module, which should already be included in the perl 
+  distribution. If it is missing on your system, you can get it from CPAN at
+  http://search.cpan.org/search?dist=CGI.pm
+- and of course you need a webserver ;-)
+- a mailserver like sendmail
+ 
+INSTALLATION
+------------
+
+Put the submit.cgi in the same directory where your cddb.cgi is located 
+(usually the public_html directory of the user cddb and/or the cgi-bin 
+directory).
+If your sendmail program is not located at /usr/sbin/sendmail
+you must open the submit.cgi in an editor and adjust the string assigned to 
+$sendmailcmd.
+If you intend to run an official freedb mirror or if you intend to forward
+the submissions accepted by the submit.cgi to freedb.org, you're now done.
+Otherwise you will have to adjust the strings assigned to $submit and 
+$testsubmit in the submit.cgi to the appropriate e-mail addresses. The values 
+of these two variables can also be a comma-separated list of several 
+e-mail-addresses, to which the submissions shall be forwarded.
+
+HELP WITH SUBMIT.CGI
+--------------------
+
+If you have any questions or comments about the freedb submit.cgi, the 
+freedb team can be reached via e-mail at:
+
+info@freedb.org

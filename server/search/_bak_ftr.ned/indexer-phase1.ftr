@@ -1,0 +1,17 @@
+0  37   63   0  10 1 1 32760
+ 14   4   1 <hyx.l tdc="hyx.l" tdp=17 file="Net/freedb/file.pm">
+ 15   4   1 <hyx.l tdc="hyx.l" tdp=20 file="Net/freedb/catalog.pm">
+ 16   4   1 <hyx.l tdc="hyx.l" tdp=3 file="LMD.pm">
+ 37   7   1 <hyx.l tdc="hyx.l" tdp=12 mark=process_list>
+ 68   4   1 <hyx.l tdc=mark tdp=11 name=process_dir>
+ 84  18   1 <hyx.l file="LMD.pm" mark=new tdc="hyx.l" tdp=7>
+ 85  17   1 <hyx.l file="Net/freedb/catalog.pm" mark=new tdc="hyx.l" tdp=17>
+ 96  27   1 <hyx.l tdc="hyx.l" tdp=7 file="Net/freedb/catalog.pm" mark="updates">
+100  18   1 <hyx.l file="%gg/usr/work/fbsd/gg-data/recordings/cat_test.pl" tdc="hyx.l" tdp=11>
+112  19   1 <hyx.l tdc="hyx.l" tdp=12 mark=process_file>
+131   4   1 <hyx.l tdc=mark tdp=12 name=process_list>
+142   5   1 <hyx.l tdc="hyx.l" tdp=12 mark=process_file>
+148   4   1 <hyx.l tdc=mark tdp=12 name=process_file>
+152  10   1 <hyx.l file="Net/freedb/file.pm" mark="new" tdc="hyx.l" tdp=14>
+176  19   1 <hyx.l tdc="hyx.l" tdp=20 file="LMD.pm" mark=write_lutmake_stream>
+183   4   1 <hyx.l tdc=mark tdp=2 name=ts>

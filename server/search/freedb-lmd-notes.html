@@ -1,0 +1,174 @@
+<h1>LMD as a freedb search tool</h1>
+
+<p>Quick notes about the LMD indexer for the freedb database.</p>
+
+<p>The LMD indexer works in several phases:</p>
+
+<ol>
+<li><a href="#phase1">search term extraction</a>
+<li><a href="#phase2">index generation</a>
+<li><a href="#phase3">search</a> (this is done by the users using
+    WWW forms and CGI scripts)
+<li><a href="#phase4">display</a>
+</ol>
+
+<hr>
+<h2><a name="phase1">Search Term extraction</h2>
+
+In this phase, each freedb file is examined and two files
+for are created for each category:
+<table border=1>
+<tr><td>&lt;category&gt;.catalog<td>document catalog (list db files)
+<tr><td>&lt;category&gt;.stream<td>list of search terms
+</table>
+</p>
+
+This phase is invoked by a command line like this:
+<pre>
+  ./cddb-t1.pl -dir cddb-main
+</pre>
+
+cddb-t1.pl does not need to be modified but expects two symlinks:
+<ul>
+<li>a directory name like the symlink cddb-main above that
+    points to the directory where the freedb database files
+    are stored.
+<li>a symlink named "db" which points to a directory where
+    it can store the catalog and stream files.  These files
+    need to be readable for the CGI scripts!
+</ul>
+
+<h2><a name="phase2">Index generation</h2>
+The stream files written by cddb-t1.pl are read by lutmake
+which will produce three additional files:
+<table border=1>
+<tr><td>&lt;category&gt;.lt<td>word lookup table
+<tr><td>&lt;category&gt;.wr<td>word reference table
+<tr><td>&lt;category&gt;.di<td>document index table
+</table>
+</p>
+
+lutmake is not called directly, instead, another Perl script
+called "indexer.pl" does that.  Besides that it uses "tfblut"
+to write another index file:
+<table border=1>
+<tr><td>&lt;category&gt;.lut<td>index for the document catalog
+</table>
+</p>
+
+indexer.pl is invoked in the directory where the stream and
+catalog files are located.
+
+</dl>
+
+<h2><a name="phase3">Search</h2>
+
+The search is performed by a CGI script called "cddb-locate.pl",
+it needs to be configured:
+
+<pre>
+# configure this
+my $db=     '/www/CD/db';
+my $FMT=    'http://whisky.wu-wien.ac.at/cgi-bin/cdfmt';
+my $deref=  '/usr/local/bin/deref';
+my $tfbget= '/usr/local/bin/tfbget';
+</pre>
+
+<p>$db points to the directory where the stream, catalog, etc. files
+are located.</p>
+
+<p>$FMT is the URL for the CGI script that is used to display freedb
+database files.</p>
+
+<h2><a name="phase4">Retrieval</h2>
+
+This script is used to display freedb database files, it also
+needs to be configured:
+
+<pre>
+# configure this
+my $db_base= 'http://whisky.wu-wien.ac.at/freedb/db';
+my $my_url=  'http://whisky.wu-wien.ac.at/cgi-bin/cdfmt';
+my $base=    '/archive/cddb/db';
+</pre>
+
+<h2>Tools Summary</h2>
+
+These scripts are built upon several other tools:
+<ul>
+<li>Binary files<br>
+    <table border=1>
+    <tr><td>lutmake<td>
+    <tr><td>deref<td>
+    <tr><td>tfblut<td>
+    <tr><td>tfbget<td>
+    </table>
+    These tools are distributed in a package called "lmd-&lt;date&gt;.tar.gz"
+    and need to be compiled using a C compiler.
+<li>A group of Perl modules using the package prefix "Net::freedb::".
+    The files are<br>
+    <table border=1>
+    <tr><td>Net/freedb/file.pm<td>handles freedb/cddb database files
+    <tr><td>Net/freedb/track.pm<td>module use to handle track
+                                   information from freedb files
+    <tr><td>Net/freedb/tools.pm<td>various utility functions
+    <tr><td>Net/freedb/cluster.pm<td>(not used here)
+    </table>
+    These Perl modules need to be installed where the other Perl scripts
+    can find them, either under "site_perl" or somewhere else.
+<li>The Perl scripts themselves:
+    <table border=1>
+    <tr><td>cddb-t1.pl<td>search term extraction <a href="#phase1">(phase 1)</a>
+    <tr><td>indexer.pl<td>index generation <a href="#phase2">(phase 2)</a>
+    <tr><td>cddb-locate.pl<td>CGI: search <a href="#phase3">(phase 3)</a>
+    <tr><td>cdfm.pl<td>CGI: display <a href="#phase4">(phase 4)</a>
+    </table>
+</ul>
+
+<h2>Installation</h2>
+<ol>
+<li>Compile the C programs from lmd-&lt;date&gt;.tar.gz and place them
+    in a directory where they can be found by the CGI scripts,
+     e.g. /usr/local/bin.
+<li>Install the Net::freedb Perl modules
+<li>Install the CGI scripts into your CGI direcory.  Be sure
+    that the scripts can find the binary modules, the raw cddb
+    files as well as the index files
+<li>Install the indexer generation files
+</ol>
+
+<hr>
+<h2>T2D/Bugs</h2>
+<ul>
+<li>Stop words are not handled properly.  Using a stop word in
+    the search term will result in an empty list.  A stop word
+    is usually marked in the LMD index and should be ignored
+    during lookup.  There is code that does exactly this but
+    somehow this doesn't work.<br>
+    <b>2001-08-26</b>: fixed, needs testing.
+<li>the predefined stopword list in the file top200.lst is not
+    properly handled, but this doesn't seem to cause problems.
+<li>Incremental index update should be added.  It is not necessary
+    to process freedb items that were already processed in an
+    earlier index run.  LMD has code for this but the search
+    term extracter does not use it yet.
+<li>References to the name "cddb" should be replaced by "freedb",
+    especially the Perl modules should be renamed.
+</ul>
+
+<hr>
+<h2>License</h2>
+
+This application is structured in three parts.  Since they are
+developed and used in different contexts, this means that these
+parts have different licenses.
+
+<ul>
+<li>the binary LMD tools: BSD-style
+<li>the Net::freedb Perl modules: Perl-style
+<li>the freedb search scripts: GNU Public license
+</ul>
+
+<hr>
+$Id: freedb-lmd-notes.html,v 1.1 2002/07/02 06:07:27 gonter Exp $
+

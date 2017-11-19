@@ -1,0 +1,62 @@
+v0.7.0 January 7th, 2004
+--------------------------
+
+- implemented usage of "Charset" header according to specification
+  in freedb.howto. ISO-8859-1 is assumed, if no charset is specified
+- fixed small bug in e-mail-generation
+- respond with an error, if passing the e-mail to sendmail failed
+
+v0.6.0 September 14th, 2001
+---------------------------
+
+- put changelog to separate (this) file
+- added README file with info and installation instructions
+
+v0.5.0 March 14th, 2001
+-----------------------
+
+- no known issues left!
+- "+" is not being replaced by a space anymore
+- minor improvements
+
+v 0.1.1 March 8th, 2001
+-----------------------
+
+- small code cleanup
+
+v0.1.0 March 4th, 2001
+----------------------
+
+- added support for X-Cddbd-Note
+- added quoted printable encoding for entry
+- changed response when invalid header information is found
+- fixed silly bug, where sendmailcmd was specified in a 
+  variable, but never used
+- removed unnecessary variables and comments
+- added lots of comments
+
+v0.0.4 October 29th, 2000
+-------------------------
+
+- corrected bug, where "&" was replaced by newline in 
+  submitted entry, causing the entry to be rejected
+  by the server software
+
+v0.0.3 September 29th, 2000
+---------------------------
+
+- corrected HTTP headers returned on success and error
+- defaults to "test" for submit mode
+- no longer returns entire entry on success.
+#
+v0.0.2 June 5th, 1999
+---------------------
+
+-  first working version
+
+v0.0.1 May 30th, 1999
+---------------------
+
+- initial framework:
+  * check for headers
+  * some sanity-checks

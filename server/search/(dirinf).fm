@@ -1,0 +1,18 @@
+#!/usr/local/bin/perl
+#
+# written:       2002-07-01
+# $Id: (dirinf).fm,v 1.1 2002/07/02 06:07:27 gonter Exp $
+#
+
+# ============================================================================
+# freedb search engine
+indexer-phase1.pl      LMD: prepare index: scan db files
+indexer-phase2.pl      LMD: prepare index: create idx files
+freedb-locate.pl  LMD: retrieval engine
+cdfmt.pl        format cddb data in text and HTML
+
+freedb-lmd-notes.html        notes about the lmd engine for lmd search
+
+# ============================================================================
+# freedb CVS repository
+freedb2cvs.pl   synchronize CVS repository

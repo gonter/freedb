@@ -1,0 +1,11 @@
+0  12   13   0  10 1 1 32760
+ 14   4   1 <hyx.l tdc=mark tdp=3 name=new>
+ 35   4   1 <hyx.l tdc=mark tdp=9 name=open_file>
+ 48   4   1 <hyx.l tdc=mark tdp=10 name=close_file>
+ 59   4   1 <hyx.l tdc=mark tdp=5 name=close>
+ 63  10   1 <hyx.l tdc="hyx.l" tdp=10 mark=close_file>
+ 64   8   1 <hyx.l tdc="hyx.l" tdp=10 mark=close_file>
+ 70   4   1 <hyx.l tdc=mark tdp=20 name=write_lutmake_stream>
+138   4   1 <hyx.l tdc=mark tdp=13 name=collect_words>
+141  14   1 <hyx.l tdc="hyx.l" tdp=9 mark=get_words>
+149   4   1 <hyx.l tdc=mark tdp=9 name=get_words>

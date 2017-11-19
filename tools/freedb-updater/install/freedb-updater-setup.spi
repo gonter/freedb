@@ -1,0 +1,46 @@
+[Project Name]
+freedb Windows Database Updater v0.33
+
+[Install To]
+<Program Files>\freedb-updater
+
+[Final Install]
+f:\freedb-updater_v0.33-setup.exe
+
+[Install Bitmap]
+D:\cvshome\tools\freedb-updater\install\freedb_updater_install_logo.bmp
+
+[Install License]
+D:\cvshome\tools\freedb-updater\gpl.txt
+
+[CopyFile]
+ToSet
+D:\Programme\freedb-updater\readme.txt
+
+[CopyFile]
+ToSet
+D:\Programme\freedb-updater\libbz2.dll
+
+[CopyFile]
+ToSet
+D:\Programme\freedb-updater\freedb-updater.exe
+
+[CopyFile]
+ToSet
+D:\Programme\freedb-updater\changes.txt
+
+[CreateIcon]
+D:\Programme\freedb-updater\freedb-updater.exe
+<Start Programs>\freedb\Windows Database Updater
+
+
+[CreateIcon]
+D:\Programme\freedb-updater\changes.txt
+<Start Programs>\freedb\Windows Database Updater Changes
+
+
+[CreateIcon]
+D:\Programme\freedb-updater\readme.txt
+<Start Programs>\freedb\Windows Database Updater ReadMe
+
+

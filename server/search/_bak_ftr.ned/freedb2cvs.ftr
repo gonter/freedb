@@ -1,0 +1,13 @@
+0  25  131   0  10 1 1 32760
+ 13   4   1 <hyx.l tdc="hyx.l" tdp=10 file="Net/freedb/file.pm">
+ 14   4   1 <hyx.l tdc="hyx.l" tdp=13 file="Net/freedb/catalog.pm">
+ 42   4   1 <hyx.l tdc=mark tdp=11 name=process_dir>
+ 56  13   1 <hyx.l tdc="hyx.l" tdp=2 mark=ts>
+ 58  17   1 <hyx.l file="Net/freedb/catalog.pm" mark=new tdc="hyx.l" tdp=17>
+ 80  18   1 <hyx.l file="%gg/usr/work/fbsd/gg-data/recordings/cat_test.pl" tdc="hyx.l" tdp=11>
+ 92  19   1 <hyx.l tdc="hyx.l" tdp=12 mark=process_file>
+110   4   1 <hyx.l tdc=mark tdp=12 name=process_list>
+121   5   1 <hyx.l tdc="hyx.l" tdp=12 mark=process_file>
+127   4   1 <hyx.l tdc=mark tdp=12 name=process_file>
+131  10   1 <hyx.l file="Net/freedb/file.pm" mark="new" tdc="hyx.l" tdp=14>
+157   4   1 <hyx.l tdc=mark tdp=2 name=ts>

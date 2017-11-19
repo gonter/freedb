@@ -1,0 +1,45 @@
+ v0.33 (2003-10-31)
+ - fixed handling of README and COPYING files
+ - other bugfixes
+
+ v0.32 (2003-07-27)
+ - fixed access violation caused by wrong database path
+
+ v0.31 (2002-07-17)
+ - fixed a bug with compressed folders
+ - source: from mainform.pas removing forgotten item " {$R Zvuk.res} {sound} "
+ - source: in mainform.pas add missing " var genre : String; " (line 191)
+ + update progress information
+ + from v0.3 append system sound for events
+ -+ changed function as Beep on MessageBeep
+ + XP style controls
+
+ v0.3 (2002-07-12)
+ - speed optimization
+ - progress information 
+ - using new Spoon Installer R8
+
+ v0.25 (2001-10-23)
+ - exchanged the tool-tips for the two text-boxes
+ - released sourcecode GPL'ed in CVS at 
+   http://sourceforge.net/projects/freedb/
+
+ v0.24 (2001-10-18)
+ - fixed the directory check for the database directory again :-(
+
+ v0.23 (2001-10-12)
+ - fixed the directory check for the database directory
+
+ v0.22 (2001-10-11)
+ - fixed broken 0Dh line breaks, using correct unix breaks 0Ah now
+ - made the program responding to windows messages (repaints while
+   processing) and disabled all controls
+ - using an installer (spoon installer) to distribute the bzip2.dll
+   along with this program
+
+ v0.21
+ - fixed a bug with audiograbber which stores unix-format-files
+   in the database directory.
+
+ v0.2
+ - initial release

@@ -1,0 +1,229 @@
+=head1 NAME
+
+cddbd, cddb.cgi - the CD Database Server is a program designed to allow remote access
+of xmcd-style Compact Disc database entries via the Internet. Xmcd is an
+X11/Motif-based CD player utility written by Ti Kan, which, as of version
+2.0 supports remote access of CDDB protocol servers. While xmcd was the first
+application to allow access to a CDDB protocol server, there are now hundreds
+of applications supporting the CDDB1 protocol.
+
+=head1 SYNOPSIS
+
+There are several usage modes:
+
+B<cddbd> I<-m>|I<-M>  [I<-dqv>]  [I<-a access_file>]
+
+B<cddbd> I<-s port|'default'> [I<-dqv>] [I<-a access_file>]
+
+B<cddbd> S<[I<-uef>]>
+S<[I<-l|-t rhost>|I<'all'> | I<-T rhost>|I<'all' hh[mm[ss[MM[DD[YY]]]]]>]>
+S<[I<-c check_lev>|I<'default' fix_lev>|I<'default'>]>
+S<[I<-p rhost>|I<'all' file>]> S<[I<-dqv>]> S<[I<-a access_file>]>
+
+B<cddbd> I<-C rhost>|I<'all'> I<cddbp_command> I<proto_lev>
+
+B<cddbd> I<-k>
+
+B<cddbd> I<-P>
+
+=head1 DESCRIPTION
+
+The CD database server has several "generic" run-time options that you can use to
+override the default behavior for debugging purposes. 
+Except for these the options for one mode cannot be mixed with that of
+another mode.
+
+
+=head1 OPTIONS
+
+The following options are valid in conjunction with any other combination
+of options except for B<-C>, B<-k> and B<-P>:
+
+=over 8
+
+=item B<-d>
+
+Put the server in debug mode. All log output is routed to
+stderr rather than the log file when this option is invoked. This is useful
+for debugging when the server can't find the log file for some reason.
+
+=item B<-v>
+
+Put cddbd in verbose mode. This causes cddbd to generate
+more verbose log output.
+
+=item B<-q>
+
+Put cddbd in quiet mode. All log output is suppressed
+when this option is invoked. This option nullifies the B<-d> and B<-v>
+options.
+
+=item B<-a> I<access_file>
+
+Force cddbd to use the specified pathname as the location
+of the access file, regardless of the path that was compiled into the server.
+This is useful when cddbd can't find the access file or when you want to
+test out an alternate access file without disturbing the installed version.
+
+=back
+
+The following options are used with the daemon I<mail filter mode>:
+
+=over 8
+
+=item B<-m>
+
+Put cddbd in mail filter mode. In this mode, it expects
+one full email database submission, complete with mail header, to be fed in
+through standard input. The entry will be processed and placed in the I<"post">
+directory for later inclusion in the database, if it is valid.
+
+=item B<-M>
+
+Works much the same as the B<-m> option, but does not actually
+post submitted entries. Instead, confirmation is echoed to the sender if
+the submission is acceptable. This mode is useful for testing client
+applications that wish to develop and test new entry submission capability.
+
+=back
+
+The following options are used with the server I<standalone mode>:
+
+=over 8
+
+=item B<-s> I<port>|I<'default'>
+
+Put cddbd in standalone server mode. It forks and becomes
+a background process, listening at the specified port number for connections.
+If the word I<'default'> is specified instead of a port number, then the
+daemon uses the most appropriate default. It will first check /etc/services
+for a port number, and failing that, will use the built-in default of port
+8880.
+
+=back
+
+The following options are used with the various daemon database I<management
+modes>:
+
+=over 8
+
+=item B<-c> I<check_lev>|I<'default'> I<fix_lev>|I<'default'>
+
+Check the integrity of the database and possibly
+correct some problems. It requires two numerical arguments,
+which correspond respectively to the level of strictness to be
+employed when verifying database entries and when fixing the database.
+Currently there is only one check level implemented, so this value
+must always be 1, while the fix level is a value in the range from 1
+to 3., Fix level 1 causes no repairs to be made to the database, level
+2 causes permissions and links to be fixed, and level 3 additionally
+causes the removal of files judged to be invalid. Fix level 3 should
+not be employed unless you are sure the database contains no invalid
+entries that can be salvaged. Level 1 or 2 should be used first to
+determine if some files can be hand-repaired.
+
+=item B<-e>
+
+Check for entries that should possibly be 
+linked. It will print an exhaustive list of entries that have fuzzy matches 
+with other entries in the database. This option does not cause them to actually
+be linked - this must still be done by hand.
+
+=item B<-u>
+
+Initiate an update of the database with
+new entries from the I<"post"> directory. It updates the transmit history
+file for remote sites.
+
+=item B<-f>
+
+Build the fuzzy matching hash index, then
+exit. This option is best used in conjunction with B<-d>, otherwise
+any errors encountered during the creation of the hash file will go to
+the error log.
+
+=item B<-p> I<rhost>|I<'all'>
+
+Remotely put the sites or motd-file to the named 
+remote site, or all remote sites if the word I<'all'> is specified. For this to 
+work, the put-permission must be granted on the receiving server.
+
+=item B<-l> I<rhost>|I<'all'>
+
+Obtain log status information for the named
+remote site, or all remote sites if the word I<'all'> is specified.
+
+=item B<-t> I<rhost>|I<'all'>
+
+Transmit all outstanding new database
+entries to the specified remote site, or all remote sites if the word
+I<'all'> is specified.
+
+=item B<-T> I<rhost>|I<'all'> I<hh[mm[ss[MM[DD[YY]]]]]>
+
+Reset the transmit history for the named
+remote site, or all remote sites if the word I<'all'> is specified. The history
+is reset to the specified time, or to the current time if the word I<'now'>
+is specified instead. Any portion of the time that is not explicitly specified
+will be substituted with the current value of that portion of the time.
+
+=back
+
+If multiple database management options are invoked at once, the server
+runs them in this order: B<cuf<l|t|T>>
+
+The following option is used to I<access remote servers>:
+
+=over 8
+
+=item B<-C> I<rhost>|I<'all'> I<cddbp_command> I<proto_lev>
+
+Connect to the named remote site, or all 
+remote sites if the word I<'all'> is specified, and execute the specified
+cddb command on the remote server. The response from the remote server is 
+written to stdout.
+
+=back
+
+The following options is used for I<key handling>:
+
+=over 8
+
+=item B<-k>
+
+Generate a random 32-character hex password
+string, which can be used as a key to restrict administrative access to a 
+cddb server.
+
+=item B<-P>
+
+Generate a password to be used in validation
+with a cddb server. The cddbd queries for the key and the salt on the 
+commandline and returns the password. 
+
+=back
+
+=head1 FILES
+
+It uses following files (apart from the database) - path relative to the config. root
+(by default F</usr/local/cddbd>):
+F<access>, F<passwd>, F<sites>, F<locks/*>, F<server/fuzzy_index> and F<server/log>
+
+=head1 NOTES
+
+Note that the active/write operations in the Windows format version of cddbd have
+not been tested much.
+
+=head1 AUTHOR
+
+=over
+
+=item Steve Scherf (steve@moonsoft.com)
+
+=item freedb team (info@freedb.org)
+                        
+=item and various contributors
+
+=back
+
+=cut
